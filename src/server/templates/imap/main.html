@@ -1,11 +1,25 @@
 {% extends "base.html" %}
 
 {% block head %}
+    <script src="http://api-maps.yandex.ru/1.1/index.xml?key=ANpUFEkBAAAAf7jmJwMAHGZHrcKNDsbEqEVjEUtCmufxQMwAAAAAAAAAAAAvVrubVT4btztbduoIgTLAeFILaQ==" type="text/javascript"></script>
     <title>Интерактивная карта</title>
+
 {% endblock%}
 
 {% block body %}
 <h1>first page</h1>
+
+<script type="text/javascript">
+    window.onload = function () {
+    // Создает экземпляр карты и привязывает его к созданному контейнеру
+        var map = new YMaps.Map(document.getElementById("YMapsID"));
+    
+        // Устанавливает начальные параметры отображения карты: центр карты и коэффициент масштабирования
+        map.setCenter(new YMaps.GeoPoint(37.64, 55.76), 10);
+    };
+</script>
+
+<div id="YMapsID" style="width:600px;height:400px"></div>
 
 {% endblock %}
 
