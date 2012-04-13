@@ -21,6 +21,12 @@ DATABASES = {
     }
 }
 
+# it should be setted in local_settings:
+OUR_DATABASE_HOST = ''
+OUR_DATABASE_NAME = ''
+OUR_DATABASE_USER = ''
+OUR_DATABASE_PASSWORD = ''
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -93,9 +99,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'server.imap'
 )
 
 #TEMPLATE_CONTEXT_PROCESSORS = (
@@ -105,3 +112,8 @@ INSTALLED_APPS = (
 #    "django.core.context_processors.media",
 #    "django.core.context_processors.request",
 #)
+
+try:
+    from local_settings import *
+except Exception:
+    pass

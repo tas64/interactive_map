@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Тестирование Ajax запросов</title>
+
+    <script type="text/javascript">
+    function make_ajax_request(query) {
+        $.ajax({
+           url: "/ajaxtest/" + query,
+           success: function(data) {
+               $('textarea').html(data);
+               //alert('alert');
+           }
+       });
+    }
+
+    function ask_for_id() {
+        return prompt("Please enter id of movable object (0 by default)","0");
+    }
+    </script>
+
+{% endblock%}
+
+{% block body %}
+<h1>Ajax test webpage</h1>
+
+
+<div class="queries">
+<button onclick="make_ajax_request('simple')">Test Request</button>
+<button onclick="make_ajax_request('immobile')">Get All immobile objects</button>
+<button onclick="make_ajax_request('movables')">Get All movables objects</button>
+<button onclick="make_ajax_request('location_points/' + ask_for_id())">Get location point for id</button>
+</div>
+
+<textarea  readonly="readonly" id="ajax-test-answers">Здесь будут ajax-ответы</textarea>
+
+{% endblock %}
+

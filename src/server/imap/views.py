@@ -1,12 +1,43 @@
 # Create your views here.
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
+import json
 
 import psycopg2
 import sys
 
+from models import  ImmobileObject, MovableObject
 def main(request):
     return render_to_response('imap/main.html')
+
+def ajaxtest(request):
+    return render_to_response('imap/ajaxtest.html')
+
+def simple_ajax_request(request):
+    object = {'test' : True, 'counter' : 5}
+    return HttpResponse(json.dumps(object, indent=2))
+
+def movables_objects(request):
+    result = []
+    for movable in MovableObject.objects.all():
+        result.append( movable.get_json() )
+    return HttpResponse(json.dumps(result, indent=2))
+
+def immobiles_objects(request):
+    result = []
+    for immobile in ImmobileObject.objects.all():
+        result.append( immobile.get_json() )
+    return HttpResponse(json.dumps(result, indent=2))
+
+def location_points_for(request, id):
+    result = []
+    try:
+        m_object = MovableObject.objects.get(id=id)
+    except:
+        return HttpResponse(json.dumps(result, indent=2))
+    for point in m_object.locationpoint_set.all():
+        result.append(point.get_json())
+    return HttpResponse(json.dumps(result, indent=2))
 
 def db_connection_test(request):
     #start of script
