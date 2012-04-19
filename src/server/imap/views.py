@@ -13,6 +13,9 @@ def main(request):
 def ajaxtest(request):
     return render_to_response('imap/ajaxtest.html')
 
+def mapsapi(request):
+    return render_to_response('imap/mapsapi.html')
+
 def simple_ajax_request(request):
     object = {'test' : True, 'counter' : 5}
     return HttpResponse(json.dumps(object, indent=2))

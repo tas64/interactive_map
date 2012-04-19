@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+    <script type="text/javascript" src="/site-media/js/mapsapi-test.js"></script>
+    <title>Maps API test -- Using Yandex Map API 2.0</title>
+
+    <script type="text/javascript">
+        ymaps.ready(function() { on_init_map(); evaluate_this(); });
+    </script>
+
+{% endblock%}
+
+{% block body %}
+<table cellspacing="10">
+
+<tr>
+
+<td><div id="myMap" style="width: 600px; height: 600px"></div></td>
+<td valign="top">
+    <a target="_blank "href="http://api.yandex.ru/maps/doc/jsapi/2.x/examples/">http://api.yandex.ru/maps/doc/jsapi/2.x/examples/</a><br/>
+<button style="width: 605px; height: 50px; margin-top: 10px; margin-bottom: 10px" onclick="evaluate_this()">EXECUTE</button>
+
+<textarea id="maps-api-testerfield" style="width: 600px; height: 500px;"></textarea><br/>
+
+<button onclick="on_init_map()">init map</button>
+<button onclick="on_pan_to()">pan to</button>
+<button onclick="on_delete()">delete map</button>
+<button onclick="on_add_points()">add points</button>
+<button onclick="on_add_route()">add route</button>
+<button onclick="on_add_polyline()">add polyline</button>
+
+
+</td>
+</tr>
+</table>
+
+
+
+
+{% endblock %}
+

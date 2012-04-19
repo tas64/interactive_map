@@ -28,6 +28,9 @@ urlpatterns = patterns('',
     (r'^ajaxtest/location_points/(\d+)/$', views.location_points_for),
     (r'^ajaxtest/$', views.ajaxtest),
 
+    #maps api test
+    (r'^mapsapi/$', views.mapsapi),
+
 
     (r'^$', views.main)
 )
