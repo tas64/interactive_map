@@ -11,14 +11,12 @@ class MovableObjectAdmin(admin.ModelAdmin):
     list_per_page = 30
 
 class ImmobileObjectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'phone', 'latitude_degree', 'latitude_minute', 'is_north',
-                    'longitude_degree', 'longitude_minute', 'is_east')
+    list_display = ('id', 'name', 'phone', 'latitude','longitude')
     fields = list_display[1:]
     list_per_page = 30
 
 class LocationPointAdmin(admin.ModelAdmin):
-    list_display = ('movable_object', 'hour', 'minute', 'second', 'latitude_degree', 'latitude_minute', 'is_north',
-                    'longitude_degree', 'longitude_minute', 'is_east')
+    list_display = ('movable_object', 'hour', 'minute', 'second', 'latitude','longitude')
     fields = list_display
     list_per_page = 30
 

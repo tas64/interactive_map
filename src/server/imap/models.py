@@ -4,29 +4,19 @@ class ImmobileObject(models.Model):
     name = models.TextField(max_length=255)
     phone = models.TextField(max_length=20, null=True, blank=True)
 
-    latitude_degree = models.IntegerField()
-    latitude_minute = models.FloatField()
-    is_north = models.BooleanField()
-
-    longitude_degree = models.IntegerField()
-    longitude_minute = models.FloatField()
-    is_east = models.BooleanField()
+    latitude = models.FloatField() #-90:90
+    longitude = models.FloatField() #-180:180
 
     def __unicode__(self):
-        return '%s [%d %f, %d %f]' % (self.name, self.latitude_degree, self.latitude_minute,
-                                         self.longitude_degree, self.longitude_minute)
+        return '%s [%f, %f]' % (self.name, self.latitude, self.longitude)
 
     def get_json(self):
         return {'id' : self.id,
                 'name' : self.name,
                 'phone' : self.phone,
-                'latitude_degree' : self.latitude_degree,
-                'latitude_minute' : self.latitude_minute,
-                'is_north' : self.is_north,
-                'longitude_degree' : self.longitude_degree,
-                'longitude_minute' : self.longitude_minute,
-                'is_east' : self.is_east
-        }
+                'latitude' : self.latitude,
+                'longitude' : self.longitude,
+                }
 
 
 class MovableObject(models.Model):
@@ -47,13 +37,8 @@ class LocationPoint(models.Model):
     minute = models.IntegerField()
     second = models.FloatField()
 
-    latitude_degree = models.IntegerField()
-    latitude_minute = models.FloatField()
-    is_north = models.BooleanField()
-
-    longitude_degree = models.IntegerField()
-    longitude_minute = models.FloatField()
-    is_east= models.BooleanField()
+    latitude = models.FloatField() #-90:90
+    longitude = models.FloatField() #-180:180
 
     def get_json(self):
         return {'movable_id' : self.movable_object_id,
@@ -62,17 +47,12 @@ class LocationPoint(models.Model):
                 'hour' : self.hour,
                 'minute' : self.minute,
                 'second' : self.second,
-                'latitude_degree' : self.latitude_degree,
-                'latitude_minute' : self.latitude_minute,
-                'is_north' : self.is_north,
-                'longitude_degree' : self.longitude_degree,
-                'longitude_minute' : self.longitude_minute,
-                'is_east' : self.is_east
+                'latitude' : self.latitude,
+                'longitude' : self.longitude
         }
 
 def __unicode__(self):
-    return '%d:%d:%f [%d %f, %d %f]' % (self.hour, self.minute, self.second, self.latitude_degree, self.latitude_minute,
-                                     self.longitude_degree, self.longitude_minute)
+    return '%d:%d:%f [%f,%f]' % (self.hour, self.minute, self.second, self.latitude, self.longitude)
 
 
 
