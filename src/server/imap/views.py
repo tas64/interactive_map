@@ -6,7 +6,9 @@ import json
 import psycopg2
 import sys
 
-from models import  ImmobileObject, MovableObject
+from db import DBWrapper
+from queries import Q
+
 def main(request):
     return render_to_response('imap/main.html')
 
@@ -22,24 +24,33 @@ def simple_ajax_request(request):
 
 def movables_objects(request):
     result = []
-    for movable in MovableObject.objects.all():
-        result.append( movable.get_json() )
+    db_wrapper = DBWrapper()
+    movables = db_wrapper.fetch_all(Q.SELECT_ALL_MOVABLES);
+    for movable in movables:
+        id, name, type = movable
+        result.append({'id' : id, 'name' : name, 'type' : type})
     return HttpResponse(json.dumps(result, indent=2))
 
 def immobiles_objects(request):
     result = []
-    for immobile in ImmobileObject.objects.all():
-        result.append( immobile.get_json() )
+    db_wrapper = DBWrapper()
+    immobiles = db_wrapper.fetch_all(Q.SELECT_ALL_IMMOBILES);
+    for immobile in immobiles:
+        id, name, phone, latitude, longitude = immobile
+        result.append({'id' : id, 'name' : name, 'phone' : phone, 'latitude' : latitude, 'longitude' : longitude})
     return HttpResponse(json.dumps(result, indent=2))
 
 def location_points_for(request, id):
     result = []
     try:
-        m_object = MovableObject.objects.get(id=id)
+         db_wrapper = DBWrapper()
+         points = db_wrapper.fetch_all(Q.LOCATION_POINTS_FOR % id)
     except:
         return HttpResponse(json.dumps(result, indent=2))
-    for point in m_object.locationpoint_set.all():
-        result.append(point.get_json())
+    for point in points:
+        id, movable_id, hour, minute, second, latitude, longitude = point
+        result.append({'id' : id, 'movable_id' : movable_id, 'hour' : hour, 'minute' : minute, 'second' : second,
+                       'latitude' : latitude, 'longitude' : longitude})
     return HttpResponse(json.dumps(result, indent=2))
 
 def db_connection_test(request):
