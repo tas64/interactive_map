@@ -63,3 +63,6 @@ def db_connection_test(request):
         sys.exit("Database connection failed!\n ->%s" % (exceptionValue))
 
         return HttpResponse("<html> Connection status: ERROR </html>")
+
+def all_immobiles_on_map(request):
+    return render_to_response("imap/all_immobiles.html")

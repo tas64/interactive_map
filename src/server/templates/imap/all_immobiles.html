@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+    <title>Интерактивная карта</title>
+
+    <script type="text/javascript">
+        ymaps.ready(init);
+
+        function init () {
+            window.myMap = new ymaps.Map('myMap', {
+                center: [59.93853, 30.313497], // Питер
+                zoom: 15
+            });
+            window.myMap.controls.add('zoomControl');
+        }
+
+        function panTo(number) {
+            var geoObject =[window.globalData[number].latitude, window.globalData[number].longitude];
+            //alert(window.globalData[number].name);
+            //alert(geoObject);
+            window.myMap.panTo(geoObject,{ flying: true, duration: 1000 });
+        }
+    </script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            $.getJSON('/ajaxtest/immobile', function(data) {
+                window.globalData = data;
+
+                var items = [];
+                $.each(data, function(key,value) {
+                    items.push("<button onclick='panTo("+key+");'>"
+                               + value.name + "</button>");
+                });
+                $('#immobile_nav').html(items.join('<br/>'));
+
+
+                $.each(data, function(key,value) {
+                    var myPlacemark = new ymaps.Placemark([value.latitude, value.longitude],
+                               { iconContent: value.name,
+                                balloonContentHeader: value.name,
+                                balloonContentBody: 'Телефон <em>' + value.phone + '</em>',
+                                balloonContentFooter: '['+value.latitude +','+value.longitude+']'},
+                            { preset: 'twirl#blueStretchyIcon' });
+                    window.myMap.geoObjects.add(myPlacemark);
+                });
+
+            });
+        }
+    </script>
+
+{% endblock%}
+
+{% block body %}
+
+<div id="myMap" style="width:800px;height:400px"></div>
+<br/>
+<div id="immobile_nav">
+
+
+</div>
+
+{% endblock %}
+

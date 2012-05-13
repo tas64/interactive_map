@@ -31,6 +31,8 @@ urlpatterns = patterns('',
     #maps api test
     (r'^mapsapi/$', views.mapsapi),
 
+    #test
+    (r'^immobiles/$', views.all_immobiles_on_map),
 
     (r'^$', views.main)
 )
