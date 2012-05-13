@@ -25,7 +25,8 @@ def simple_ajax_request(request):
 def movables_objects(request):
     result = []
     db_wrapper = DBWrapper()
-    movables = db_wrapper.fetch_all(Q.SELECT_ALL_MOVABLES);
+    movables = db_wrapper.fetch_all(Q.SELECT_ALL_MOVABLES)
+    db_wrapper.dispose()
     for movable in movables:
         id, name, type = movable
         result.append({'id' : id, 'name' : name, 'type' : type})
@@ -34,7 +35,8 @@ def movables_objects(request):
 def immobiles_objects(request):
     result = []
     db_wrapper = DBWrapper()
-    immobiles = db_wrapper.fetch_all(Q.SELECT_ALL_IMMOBILES);
+    immobiles = db_wrapper.fetch_all(Q.SELECT_ALL_IMMOBILES)
+    db_wrapper.dispose()
     for immobile in immobiles:
         id, name, phone, latitude, longitude = immobile
         result.append({'id' : id, 'name' : name, 'phone' : phone, 'latitude' : latitude, 'longitude' : longitude})
@@ -45,6 +47,7 @@ def location_points_for(request, id):
     try:
          db_wrapper = DBWrapper()
          points = db_wrapper.fetch_all(Q.LOCATION_POINTS_FOR % id)
+         db_wrapper.dispose()
     except:
         return HttpResponse(json.dumps(result, indent=2))
     for point in points:

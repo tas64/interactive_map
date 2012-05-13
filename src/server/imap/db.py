@@ -35,6 +35,10 @@ class DBWrapper:
         self._connection.commit()
         cursor.close()
 
-    def __del__(self):
+    def dispose(self):
         if self._connection:
             self._connection.close()
+            self._connection = None
+
+    def __del__(self):
+        self.dispose()
