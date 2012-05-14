@@ -44,9 +44,10 @@ function init () {
     window.myMap.events.add('click', function (e) {
         //if (!window.myMap.balloon.isOpen()) {
             var coords = e.get('coordPosition');
-            openBaloon(coords)
             $("#id_latitude").val(coords[0].toPrecision(6));
             $("#id_longitude").val(coords[1].toPrecision(6));
+            openBaloon(coords)
+
     });
 
     $("#id_latitude").bind('change', panTo);
