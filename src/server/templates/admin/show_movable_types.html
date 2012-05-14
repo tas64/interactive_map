@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title>Редактирование неподвижных объектов</title>
+    <title>Редактирование типов подвижных объектов</title>
 {% endblock%}
 
 {% block body %}
@@ -11,20 +11,17 @@
 {% endif %}
 
 <p>
-    <a href="add/">Добавить объект</a>
+    <a href="add/">Добавить тип</a>
 </p>
 
 <table class="list" width="100%" border="1" cellpadding="4" cellspacing="0">
 <tr>
-    <td>id</td><td>Название</td><td>Телефон</td><td>Широта</td><td>Долгота</td><td>Управление</td>
+    <td>id</td><td>Название</td><td>Управление</td>
 </tr>
 {% for object in objects %}
     <tr>
     <td>{{ object.id }}</td>
     <td>{{ object.name }}</td>
-    <td>{{ object.phone }}</td>
-    <td>{{ object.latitude }}</td>
-    <td>{{ object.longitude }}</td>
     <td><a style="color: blue"href="edit/{{ object.id }}/">Изменить</a>
         <a style="color: red" href="del/{{ object.id }}/">Удалить</a></td>
     </tr>

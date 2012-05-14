@@ -10,9 +10,12 @@ class ImmobileObject(models.Model):
     def __unicode__(self):
         return '%s [%f, %f]' % (self.name, self.latitude, self.longitude)
 
+class MovableType(models.Model):
+    name = models.TextField(max_length=255)
+
 class MovableObject(models.Model):
     name = models.TextField(max_length=255)
-    type = models.IntegerField(null=True, blank=True)
+    movable_type = models.ForeignKey(MovableType)
 
     def __unicode__(self):
         return 'movable %s' % self.name

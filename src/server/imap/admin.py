@@ -5,9 +5,9 @@ from models import MovableObject, ImmobileObject, LocationPoint
 
 class MovableObjectAdmin(admin.ModelAdmin):
 #    search_fields = ('name', )
-    list_display = ('id', 'name', 'type')
+    list_display = ('id', 'name', 'movable_type')
 #    list_filter = ('credit',)
-    fields = ('name', 'type')
+    fields = ('name', 'movable_type')
     list_per_page = 30
 
 class ImmobileObjectAdmin(admin.ModelAdmin):

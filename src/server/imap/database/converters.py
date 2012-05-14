@@ -1,6 +1,14 @@
 def convert_movable(object):
-    id, name, type = object
-    return {'id' : id, 'name' : name, 'type' : type}
+    id, name, movable_type_id = object
+    return {'id' : id, 'name' : name, 'movable_type_id' : movable_type_id}
+
+def convert_movable_with_type(object):
+    id, name, movable_type_id, type_name = object
+    return {'id' : id, 'name' : name, 'movable_type_id' : movable_type_id, 'type_name' : type_name}
+
+def convert_movable_type(object):
+    id, name = object
+    return {'id' : id, 'name' : name}
 
 def convert_immobile(object):
     id, name, phone, latitude, longitude = object

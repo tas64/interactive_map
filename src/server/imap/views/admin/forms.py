@@ -8,3 +8,11 @@ class ImmobileForm(forms.Form):
     phone = forms.CharField(required=False)
     latitude = forms.FloatField(required=True)
     longitude = forms.FloatField(required=True)
+
+class MovableForm(forms.Form):
+    #return {'id' : id, 'name' : name, 'type' : type}
+    name = forms.CharField(required=True)
+
+class MovableTypeForm(forms.Form):
+    #return {'id' : id, 'name' : name}
+    name = forms.CharField(required=True)

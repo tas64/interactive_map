@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>
+        {% if creating %}Создание{% else %}Редактирование{% endif %} типа подвижного объекта </title>
+{% endblock%}
+
+{% block menu %}
+    <a href="/admin/movable_types/">Список объектов</a>
+{% endblock%}
+
+
+{% block body %}
+
+{% if message %}
+    <div class="message">{{ message }} </div>
+{% endif %}
+
+<p>Пожалуйста, введите данные для типа:</p>
+
+    <form action="" method="post">
+    <table class="edit" cellpadding="1">
+        <tr>
+            <td><label for="id_name">Имя:</label></td>
+            <td>{{ form.name }} </td><td>{{ form.name.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="id_name">Имя:</label></td>
+            <td>{{ form.name }} </td><td>{{ form.name.errors }}</td>
+        </tr>
+    </table>
+
+    <input class="bigbutton" type="submit" value="Сохранить объект">
+</form>
+
+{% endblock %}
+
