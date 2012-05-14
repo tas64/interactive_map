@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
     <title>Интерактивная карта</title>
 
     <script type="text/javascript">
@@ -25,7 +24,7 @@
 
     <script type="text/javascript">
         window.onload = function () {
-            $.getJSON('/ajaxtest/immobile', function(data) {
+            $.getJSON('/ajax/immobile', function(data) {
                 window.globalData = data;
 
                 var items = [];

@@ -6,7 +6,7 @@
     <script type="text/javascript">
     function make_ajax_request(query) {
         $.ajax({
-           url: "/ajaxtest/" + query,
+           url: "/ajax/" + query,
            success: function(data) {
                $('textarea').html(data);
                //alert('alert');

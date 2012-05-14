@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Редактирование неподвижных объектов</title>
+{% endblock%}
+
+{% block body %}
+
+{% if message %}
+    <div class="message">{{ message }} </div>
+{% endif %}
+
+<p>
+    <a href="add/">Добавить объект</a>
+</p>
+
+<table class="list" width="100%" border="1" cellpadding="4" cellspacing="0">
+<tr>
+    <td>id</td><td>Название</td><td>Телефон</td><td>Широта</td><td>Долгота</td><td>Управление</td>
+</tr>
+{% for immobile in immobiles %}
+    <tr>
+    <td>{{ immobile.id }}</td>
+    <td>{{ immobile.name }}</td>
+    <td>{{ immobile.phone }}</td>
+    <td>{{ immobile.latitude }}</td>
+    <td>{{ immobile.longitude }}</td>
+    <td><a style="color: blue"href="edit/{{ immobile.id }}/">Изменить</a>
+        <a style="color: red" href="del/{{ immobile.id }}/">Удалить</a></td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}
+

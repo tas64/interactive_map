@@ -1,38 +1,35 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
+from imap.views.admin import views
 
 import settings
 
-from imap import views
+from imap.views import main_view, ajax_views, test_views
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Example:
-    # (r'^server/', include('server.foo.urls')),
+    #pages of site
+    (r'^$', main_view.main),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^admin/', include('server.imap.views.admin.urls')),
 
-    # Uncomment the next line to enable the admin:
-     (r'^admin/', include(admin.site.urls)),
+    #ajax queries
+    (r'^ajax/simple/$', ajax_views.simple_request),
+    (r'^ajax/movables/$', ajax_views.movables_objects),
+    (r'^ajax/immobile/$', ajax_views.immobiles_objects),
+    (r'^ajax/location_points/(\d+)/$', ajax_views.location_points_for),
 
+    #test pages
+    (r'^test/ajaxtest/$', test_views.ajaxtest),
+    (r'^test/mapsapi/$', test_views.mapsapi),
+    (r'^test/immobiles/$', test_views.all_immobiles_on_map),
+    (r'^test/db/$', test_views.db_connection_test),
+
+    #service queries
+    (r'^django/', include(admin.site.urls)),
     (r'^site-media/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': settings.MEDIA_ROOT}),
-    (r'^db_test/', views.db_connection_test),
+         {'document_root': settings.MEDIA_ROOT}),
 
-    #ajaxtest queries
-    (r'^ajaxtest/simple/$', views.simple_ajax_request),
-    (r'^ajaxtest/movables/$', views.movables_objects),
-    (r'^ajaxtest/immobile/$', views.immobiles_objects),
-    (r'^ajaxtest/location_points/(\d+)/$', views.location_points_for),
-    (r'^ajaxtest/$', views.ajaxtest),
 
-    #maps api test
-    (r'^mapsapi/$', views.mapsapi),
-
-    #test
-    (r'^immobiles/$', views.all_immobiles_on_map),
-
-    (r'^$', views.main)
 )

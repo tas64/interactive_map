@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>
+        {% if creating %}Создание{% else %}Редактирование{% endif %} неподвижного объекта </title>
+    <script type="text/javascript" src="/site-media/js/mapwidget.js"></script>
+    <script type="text/javascript">
+
+    </script>
+{% endblock%}
+
+{% block menu %}
+    <a href="/admin/immobiles/">Список объектов</a>
+{% endblock%}
+
+
+{% block body %}
+
+{% if message %}
+    <div class="message">{{ message }} </div>
+{% endif %}
+
+<p>Пожалуйста, введите данные для объекта:</p>
+
+<table>
+<tr>
+<td>
+<form action="" method="post">
+    <table class="edit" cellpadding="1">
+        <tr>
+            <td><label for="id_name">Имя:</label></td>
+            <td>{{ form.name }} </td><td>{{ form.name.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="id_phone">Телефон:</label></td>
+            <td>{{ form.phone }} </td><td>{{ form.phone.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="id_latitude">Широта:</label></td>
+            <td>{{ form.latitude }}</td><td>{{ form.latitude.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="id_longitude">Долгота:</label></td>
+            <td>{{ form.longitude }}</td><td>{{ form.longitude.errors }}</td>
+        </tr>
+    </table>
+
+    <input class="bigbutton" type="submit" value="Сохранить объект">
+</form>
+</td>
+<td class="mapwidget">
+<p>Пожалуйста, щелкните по карте для задания координат объекта:</p>
+<div id="myMap" class="mapwidget"></div>
+</td>
+</tr>
+
+</table>
+
+{% endblock %}
+
