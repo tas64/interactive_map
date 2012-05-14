@@ -21,5 +21,7 @@ urlpatterns = patterns('',
     (r'^movable_types/add/$', views.add_movable_type),
     (r'^movable_types/edit/(\d+)/$', views.edit_movable_type),
 
+    (r'^upload_points/$', views.upload_points),
+
 
 )

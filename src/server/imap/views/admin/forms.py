@@ -16,3 +16,6 @@ class MovableForm(forms.Form):
 class MovableTypeForm(forms.Form):
     #return {'id' : id, 'name' : name}
     name = forms.CharField(required=True)
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()

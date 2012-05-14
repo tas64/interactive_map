@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, redirect
 
 from imap.database import queries
@@ -110,6 +110,41 @@ def edit_movable_type(request, id):
         object = queries.get_movable_type(id)
         form = forms.MovableTypeForm(initial = object)
     return render_to_response("admin/edit_movable_type.html", {'form' : form, 'creating' : False})
+
+
+def handle_file(content):
+    for line in content.split('\n'):
+        if not line.startswith('$'):
+            continue
+        id, time, latitude, p, longitude, j = line[1:].split(',')
+        h,m,s = time[0:2], time[2:4], time[4:]
+        latitude_degree, latitude_minute = int(latitude[0:2]), float(latitude[2:])
+        longitude_degree, longitude_minute = int(longitude[0:2]), float(longitude[2:])
+
+        real_latitude = float(latitude_degree) + float(latitude_minute/60)
+        real_longitude = float(longitude_degree) + float(longitude_minute/60)
+
+        #TODO add range check and correcting
+
+        if p == 'S':
+            real_latitude *= -1
+        if j == 'E':
+            real_longitude *= -1
+
+        #TODO add duplicates rules
+        queries.add_location_point(id, h, m, s, real_latitude, real_longitude)
+
+
+def upload_points(request):
+    if request.method == 'POST':
+        form = forms.UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file_content = request.FILES['file'].read()
+            handle_file(file_content)
+            return render_to_response("admin/upload_points.html", {'message': u'Файл успешно залит'})
+    else:
+        form = forms.UploadFileForm()
+    return render_to_response("admin/upload_points.html", {'form': form})
 
 
 

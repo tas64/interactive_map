@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Залить файл с точками</title>
+{% endblock%}
+
+{% block body %}
+
+{% if message %}
+    <div class="message">{{ message }}</div>
+{% endif %}
+
+{% if form %}
+<div>
+    <form action="" method="post" enctype="multipart/form-data">
+    <label for="id_file">Выберите файл для загрузки:</label>
+    {{ form.file.errors }}
+    {{ form.file }}
+</div>
+    <br/>
+    <input class="bigbutton" type="submit" value="Залить файл">
+    </form>
+{% endif %}
+
+{% endblock %}
+
