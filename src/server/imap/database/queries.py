@@ -14,7 +14,7 @@ class Q:
 
     ADD_IMMOBILE_OBJECT = "INSERT INTO imap_immobileobject (name, phone, latitude, longitude) VALUES ('%s', '%s', %s, %s);"
     ADD_MOVABLE_OBJECT = "INSERT INTO imap_movableobject (name, movable_type_id) VALUES ('%s', '%s');"
-    ADD_MOVABLE_TYPE = "INSERT INTO imap_movabletype (name, movable_type_id) VALUES ('%s', %s);"
+    ADD_MOVABLE_TYPE = "INSERT INTO imap_movabletype (name) VALUES ('%s');"
 
     ADD_LOCATION_POINT= "INSERT INTO imap_locationpoint (movable_object_id , hour, minute, second, latitude, longitude) VALUES (%s, '%s', '%s','%s','%s','%s');"
 
@@ -118,7 +118,7 @@ def delete_movable_type(id):
 
 def add_movable_type(data):
     db_wrapper = DBWrapper()
-    db_wrapper.execute(Q.ADD_MOVABLE_TYPE % (data['name'], data['movable_type_id']))
+    db_wrapper.execute(Q.ADD_MOVABLE_TYPE % (data['name']))
     db_wrapper.dispose()
     return True
 

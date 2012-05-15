@@ -92,7 +92,6 @@ def add_movable_type(request):
         form = forms.MovableTypeForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            data['movable_type_id'] = request.POST['movable_type_id']
             queries.add_movable_type(data)
             return HttpResponseRedirect('/admin/movable_types/')
     else:
