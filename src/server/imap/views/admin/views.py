@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response, redirect
 from imap.database import queries
 import forms
 
+import re
 
 def main_page(request):
     return render_to_response("admin/main.html")
@@ -115,6 +116,7 @@ def handle_file(content):
     for line in content.split('\n'):
         if not line.startswith('$'):
             continue
+        line = re.sub(r"\s", "", line)
         id, time, latitude, p, longitude, j = line[1:].split(',')
         h,m,s = time[0:2], time[2:4], time[4:]
         latitude_degree, latitude_minute = int(latitude[0:2]), float(latitude[2:])
