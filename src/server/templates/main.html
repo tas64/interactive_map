@@ -1,36 +1,42 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <script src="http://api-maps.yandex.ru/1.1/index.xml?key=ANpUFEkBAAAAf7jmJwMAHGZHrcKNDsbEqEVjEUtCmufxQMwAAAAAAAAAAAAvVrubVT4btztbduoIgTLAeFILaQ==" type="text/javascript"></script>
     <title>Интерактивная карта</title>
-
+    <script type="text/javascript" src="/site-media/js/mainpage.js"></script>
 {% endblock%}
 
 {% block body %}
-<h1>first page</h1>
 
-<script type="text/javascript">
-    window.onload = function () {
-    // Создает экземпляр карты и привязывает его к созданному контейнеру
-        var map = new YMaps.Map(document.getElementById("YMapsID"));
-    
-        // Устанавливает начальные параметры отображения карты: центр карты и коэффициент масштабирования
-        map.setCenter(new YMaps.GeoPoint(37.64, 55.76), 10);
-    };
-</script>
+<div class="mainmenu">
+    <a href="/admin/">Панель администрирования</a><br/>
+    <a href="/test/ajaxtest/">Ajax test webpage</a>
+    <a href="/test/mapsapi/">Yandex Maps API test webpage</a>
+    <a href="/test/immobiles/">Показать Immobile objects на карте</a>
+</div>
 
-<div id="YMapsID" style="width:600px;height:400px"></div>
+<div class="content">
 
-<br/>
-<a href="/admin/">Панель администрирования</a>
+    <div id="myMap" class="mainmap"></div>
+    <table width="100%">
+        <tr>
+            <td valign="top" width="50%">
+                <p> Неподвижные объекты:</p>
+                <p class="hint">Напишите * чтобы вывести все</p>
+                <input type="text" id="immobiles_search"/>
+                <button id="immobiles_search_btn" onclick="search_immobile()">Искать</button>
+                <div id="immobiles_container"></div>
 
-<h2>Ссылки на тестовые страницы:</h2>
-    <ul>
-<li><a href="/test/ajaxtest/">Ajax test webpage</a></li>
-<li><a href="/test/mapsapi/">Yandex Maps API test webpage</a></li>
-<li><a href="/test/immobiles/">Показать Immobile objects на карте</a></li>
-
-    </ul>
+            </td>
+            <td valign="top" width="50%">
+                <p> Подвижные объекты:</p>
+                <p class="hint">Напишите * чтобы вывести все</p>
+                <input type="text" id="movables_search"/>
+                <button id="movables_search_btn" onclick="search_movables()">Искать</button>
+                <div id="movables_container"></div>
+            </td>
+        </tr>
+    </table>
+</div>
 
 {% endblock %}
 

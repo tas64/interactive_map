@@ -8,6 +8,10 @@ class Q:
     SELECT_ALL_MOVABLE_TYPES  = "SELECT * FROM imap_movabletype ORDER BY id;"
     LOCATION_POINTS_FOR  = "SELECT * FROM imap_locationpoint WHERE movable_object_id = %s ORDER BY id;"
 
+
+    SEARCH_IMMOBILES = "SELECT * FROM imap_immobileobject WHERE name LIKE '%PATTERN%' ORDER BY id;"
+    SEARCH_MOVABLES =  "SELECT * FROM imap_movableobject WHERE name LIKE '%PATTERN%' ORDER BY id;"
+
     DELETE_IMMOBILE_OBJECT  = "DELETE FROM imap_immobileobject WHERE id = %s;"
     DELETE_MOVABLE_OBJECT = "DELETE FROM imap_movableobject WHERE id = %s;"
     DELETE_MOVABLE_TYPE = "DELETE FROM imap_movabletype WHERE id = %s;"
@@ -50,6 +54,18 @@ def get_all_immobiles_objects():
     immobiles = db_wrapper.fetch_all(Q.SELECT_ALL_IMMOBILES)
     db_wrapper.dispose()
     return map(converters.convert_immobile, immobiles)
+
+def search_immobiles_objects(pattern):
+    db_wrapper = DBWrapper()
+    objects = db_wrapper.fetch_all(Q.SEARCH_IMMOBILES.replace('PATTERN', pattern))
+    db_wrapper.dispose()
+    return map(converters.convert_immobile, objects)
+
+def search_movables_objects(pattern):
+    db_wrapper = DBWrapper()
+    objects = db_wrapper.fetch_all(Q.SEARCH_MOVABLES.replace('PATTERN', pattern))
+    db_wrapper.dispose()
+    return map(converters.convert_movable, objects)
 
 def get_all_location_points_for(id):
     points = ()
@@ -108,7 +124,6 @@ def update_movable_object(id, movable_type_id, data):
     db_wrapper.execute(Q.UPDATE_MOVABLE_OBJECT % (data['name'],movable_type_id, id))
     db_wrapper.dispose()
     return True
-
 
 def delete_movable_type(id):
     db_wrapper = DBWrapper()
