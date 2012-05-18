@@ -12,7 +12,7 @@ a {
 div.menu {
     display: block;
     background-color: lightblue;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 .menu a {

@@ -36,6 +36,57 @@ function immobile_click(id) {
     window.myMap.geoObjects.add(myPlacemark);
 }
 
+function clear_movable_path() {
+    if (window.movable_showed_id != undefined) {
+        window.myMap.geoObjects.remove(window.movable_polyline);
+        window.movable_showed_id = undefined;
+    }
+}
+
+function movables_click(id) {
+
+    if (window.movable_showed_id == id) {
+        return;
+    }
+
+    clear_movable_path();
+
+    $.getJSON('/ajax/location_points/' + id +'/', function(data) {
+        var points = [];
+        $.each(data, function(key,value) {
+            points.push([value.latitude, value.longitude])
+        });
+        if (points.length == 0) {
+            return;
+        }
+        window.movable_showed_id = id;
+
+        var properties = {};
+        var options = {
+            //draggable: true,
+            //strokeColor: '#000000',
+            strokeWidth: 2
+            //strokeStyle: '1 5'
+        };
+        window.movable_polyline = new ymaps.Polyline(points, properties, options);
+        window.myMap.geoObjects.add(window.movable_polyline);
+        //window.myMap.panTo(points[0], { flying: true, duration: 1000 });
+
+        window.myMap.setBounds( calculate_bounds(points), { checkZoomRange: true });
+    });
+}
+
+function calculate_bounds(points) {
+    var latitude_list = [];
+    var longitude_list = [];
+    $.each(points, function(key,value) {
+        latitude_list.push(value[0]);
+        longitude_list.push(value[1]);
+    });
+    var left_point =  [Math.min.apply(Math,latitude_list), Math.min.apply(Math, longitude_list)];
+    var right_point = [Math.max.apply(Math,latitude_list), Math.max.apply(Math, longitude_list)];
+    return [left_point, right_point];
+}
 
 
 function search_immobile() {
@@ -58,7 +109,7 @@ function search_immobile() {
             $('#immobiles_container').html(items.join('<br/>'));
         });
 
-    })
+    });
 
 }
 
@@ -69,13 +120,15 @@ function search_movables() {
         return;
     }
 
+    clear_movable_path();
+
     $.getJSON('/ajax/movables/?q=' + text, function(data) {
         window.globalData = data;
         $('#movables_container').html("");
         $.each(data, function(key,value) {
             var items = [];
             $.each(data, function(key,value) {
-                items.push("<input type='radio'/>" + value.name);
+                items.push("<input type='radio' name='movables_radio' onclick='movables_click(" + value.id +")'/>" + value.name);
             });
             $('#movables_container').html(items.join('<br/>'));
         });
