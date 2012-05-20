@@ -24,12 +24,9 @@ class MovableObject(models.Model):
         return {'id' : self.id, 'name' : self.name, 'type' : self.type }
 
 class LocationPoint(models.Model):
-
     movable_object = models.ForeignKey(MovableObject)
 
-    hour = models.IntegerField()
-    minute = models.IntegerField()
-    second = models.FloatField()
+    time = models.TimeField()
 
     latitude = models.FloatField() #-90:90
     longitude = models.FloatField() #-180:180

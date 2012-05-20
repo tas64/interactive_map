@@ -71,23 +71,9 @@ function movables_click(id) {
         window.movable_polyline = new ymaps.Polyline(points, properties, options);
         window.myMap.geoObjects.add(window.movable_polyline);
         //window.myMap.panTo(points[0], { flying: true, duration: 1000 });
-
-        window.myMap.setBounds( calculate_bounds(points), { checkZoomRange: true });
+        window.myMap.setBounds(window.movable_polyline.geometry.getBounds(), { checkZoomRange: true });
     });
 }
-
-function calculate_bounds(points) {
-    var latitude_list = [];
-    var longitude_list = [];
-    $.each(points, function(key,value) {
-        latitude_list.push(value[0]);
-        longitude_list.push(value[1]);
-    });
-    var left_point =  [Math.min.apply(Math,latitude_list), Math.min.apply(Math, longitude_list)];
-    var right_point = [Math.max.apply(Math,latitude_list), Math.max.apply(Math, longitude_list)];
-    return [left_point, right_point];
-}
-
 
 function search_immobile() {
     var text = $('#immobiles_search').val();

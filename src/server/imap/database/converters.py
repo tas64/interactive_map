@@ -15,6 +15,5 @@ def convert_immobile(object):
     return {'id' : id, 'name' : name, 'phone' : phone, 'latitude' : latitude, 'longitude' : longitude}
 
 def convert_point(object):
-    id, movable_id, hour, minute, second, latitude, longitude = object
-    return {'id' : id, 'movable_id' : movable_id, 'hour' : hour, 'minute' : minute, 'second' : second,
-                   'latitude' : latitude, 'longitude' : longitude}
+    id, movable_id, time, latitude, longitude = object
+    return {'id' : id, 'movable_id' : movable_id, 'time' : time, 'latitude' : latitude, 'longitude' : longitude}
