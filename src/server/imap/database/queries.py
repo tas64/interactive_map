@@ -9,6 +9,8 @@ class Q:
     LOCATION_POINTS_FOR  = "SELECT * FROM imap_locationpoint WHERE movable_object_id = %s ORDER BY time;"
 
 
+    DELETE_LOCATION_POINTS_FOR  = "DELETE FROM imap_locationpoint WHERE movable_object_id = %s;"
+
     SEARCH_IMMOBILES = "SELECT * FROM imap_immobileobject WHERE name LIKE '%PATTERN%' ORDER BY id;"
     SEARCH_MOVABLES =  "SELECT * FROM imap_movableobject WHERE name LIKE '%PATTERN%' ORDER BY id;"
 
@@ -22,9 +24,9 @@ class Q:
 
     ADD_LOCATION_POINT = "INSERT INTO imap_locationpoint (movable_object_id , time, latitude, longitude) VALUES (%s, '%s:%s:%s','%s','%s');"
 
-    UPDATE_IMMOBILE_OBJECT = "UPDATE imap_immobileobject SET name = '%s', phone = '%s', latitude = '%s', longitude = '%s' WHERE id = %s;";
-    UPDATE_MOVABLE_OBJECT = "UPDATE imap_movableobject SET name = '%s', movable_type_id = '%s' WHERE id = %s;";
-    UPDATE_MOVABLE_TYPE = "UPDATE imap_movabletype SET name = '%s' WHERE id = %s;";
+    UPDATE_IMMOBILE_OBJECT = "UPDATE imap_immobileobject SET name = '%s', phone = '%s', latitude = '%s', longitude = '%s' WHERE id = %s;"
+    UPDATE_MOVABLE_OBJECT = "UPDATE imap_movableobject SET name = '%s', movable_type_id = '%s' WHERE id = %s;"
+    UPDATE_MOVABLE_TYPE = "UPDATE imap_movabletype SET name = '%s' WHERE id = %s;"
 
     GET_IMMOBILE_OBJECT = "SELECT * from imap_immobileobject WHERE id = %s LIMIT 1;"
     GET_MOVABLE_OBJECT =  "SELECT * from imap_movableobject WHERE id = %s LIMIT 1;"
@@ -76,6 +78,11 @@ def get_all_location_points_for(id):
     except:
         pass
     return map(converters.convert_point, points)
+
+def delete_all_location_points_for(id):
+    db_wrapper = DBWrapper()
+    db_wrapper.execute(Q.DELETE_LOCATION_POINTS_FOR % id)
+    db_wrapper.dispose()
 
 def delete_immobile_object(id):
     db_wrapper = DBWrapper()

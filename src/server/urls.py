@@ -19,6 +19,10 @@ urlpatterns = patterns('',
     (r'^ajax/movables/$', ajax_views.movables_objects),
     (r'^ajax/immobile/$', ajax_views.immobiles_objects),
     (r'^ajax/location_points/(\d+)/$', ajax_views.location_points_for),
+    (r'^ajax/del_location_points/(\d+)/$', ajax_views.del_location_points_for),
+    (r'^ajax/save_location_points/(\d+)/$', ajax_views.save_location_points_for),
+
+
 
     #test pages
     (r'^test/ajaxtest/$', test_views.ajaxtest),

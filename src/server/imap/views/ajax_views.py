@@ -33,3 +33,38 @@ def immobiles_objects_search(request, pattern):
 def location_points_for(request, id):
     points = queries.get_all_location_points_for(id)
     return HttpResponse(json.dumps(points, indent=2))
+
+def del_location_points_for(request, id):
+    queries.delete_all_location_points_for(id)
+    answer = 'OK'
+    return HttpResponse(json.dumps(answer))
+
+def save_location_points_for(request, id):
+    points = json.loads(request.GET['data'])
+
+    #validation
+    valid = True
+    for point in points:
+        hour, minute, second = point['hour'].strip(), point['minute'].strip(), point['second'].strip()
+
+        if not hour.isalnum() or int(hour) < 0 or int(hour) > 23:
+            valid = False
+            break
+        if not minute.isalnum() or int(minute) < 0 or int(minute) > 59:
+            valid = False
+            break
+        if not second.replace('.','').isalnum() or float(second) < 0 or float(second) >= 60:
+            valid = False
+            break
+    if not valid:
+        result = {'result' : 'wrong' }
+        return HttpResponse(json.dumps(result))
+
+    for point in points:
+        hour, minute, second = point['hour'].strip(), point['minute'].strip(), point['second'].strip()
+        latitude, longitude = point['latitude'].strip(), point['longitude'].strip()
+        queries.add_location_point(id, hour, minute, second, latitude, longitude)
+
+    result = {'result' : 'OK' }
+    return HttpResponse(json.dumps(result))
+

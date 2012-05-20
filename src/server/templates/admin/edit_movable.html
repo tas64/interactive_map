@@ -3,6 +3,9 @@
 {% block head %}
     <title>
         {% if creating %}Создание{% else %}Редактирование{% endif %} подвижного объекта </title>
+        {% if not creating %}
+        <script type="text/javascript" src="/site-media/js/locations_widget.js"></script>
+        {% endif %}
 {% endblock%}
 
 {% block menu %}
@@ -40,6 +43,48 @@
 
     <input class="bigbutton" type="submit" value="Сохранить объект">
 </form>
+
+
+<hr/>
+<p>Маршрут объекта:</p>
+
+{% if creating %}
+<p>Маршрут можно задать только для уже созданного объекта</p>
+{% else %}
+
+<div id="help"></div>
+<table>
+<tr>
+    <td valign="top">
+<div id="map" class="mapwidget"></div>
+
+<script type="text/javascript">
+window.onload = function() {
+    init_path({{ id }});
+}
+</script>
+    </td>
+    <td valign="top">
+<button disabled="disabled" id="set-time-button" onclick="set_time()">Задать время</button>
+<button disabled="disabled" id="del-time-button" onclick="delete_way()">Удалить путь</button>
+<button disabled="disabled" id="save-time-button" onclick="save_way()">Сохранить путь</button>
+
+<div id="time">
+<table class="locations" border="1px">
+    <tr class="header">
+        <td>longitude</td>
+        <td>latitude</td>
+        <td>hour</td>
+        <td>minute</td>
+        <td>second</td>
+    </tr>
+</table>
+</div>
+    </td>
+</tr>
+</table>
+
+{% endif %}
 
 {% endblock %}
 

@@ -77,7 +77,7 @@ def edit_movable(request, id):
         movable_type_id = object['movable_type_id']
         form = forms.MovableForm(initial = object)
     types = queries.get_all_movable_types()
-    return render_to_response("admin/edit_movable.html", {'form' : form,  'types' : types, 'movable_type_id' : movable_type_id,  'creating' : False})
+    return render_to_response("admin/edit_movable.html", {'id': id, 'form' : form,  'types' : types, 'movable_type_id' : movable_type_id,  'creating' : False})
 
 
 def show_movable_types(request):
