@@ -2,6 +2,8 @@
 
 {% block head %}
     <title>Интерактивная карта</title>
+    <script type="text/javascript" src="/site-media/js/jquery-ui-1.8.18.custom.min.js"></script>
+    <link rel="stylesheet" href="/site-media/css/jquery-ui.css" type="text/css" media="all" />
     <script type="text/javascript" src="/site-media/js/mainpage.js"></script>
 {% endblock%}
 
@@ -15,7 +17,7 @@
             <td valign="top" width="50%">
                 <p> Неподвижные объекты:</p>
                 <p class="hint">Напишите * чтобы вывести все</p>
-                <input type="text" id="immobiles_search"/>
+                <input type="text" id="immobiles_search" class="search_field"/>
                 <button id="immobiles_search_btn" onclick="search_immobile()">Искать</button>
                 <div id="immobiles_container"></div>
 
@@ -23,12 +25,28 @@
             <td valign="top" width="50%">
                 <p> Подвижные объекты:</p>
                 <p class="hint">Напишите * чтобы вывести все</p>
-                <input type="text" id="movables_search"/>
+                <input type="text" id="movables_search" class="search_field"/>
                 <button id="movables_search_btn" onclick="search_movables()">Искать</button>
                 <div id="movables_container"></div>
+
+
+
             </td>
         </tr>
     </table>
+
+    <div id="slider" class="hide">
+        <p>Выберите временной отрезок, который необходимо показать:</p>
+        <div id="slider-range"></div>
+        <table width="100%">
+            <tr>
+                <td width="10%"> <div class="left-timefield"></div></td>
+                <td>&nbsp;</td>
+                <td width="10%"> <div class="right-timefield"></div></td>
+            </tr>
+        </table>
+    </div>
+
 </div>
 
 {% endblock %}

@@ -86,3 +86,33 @@ table.locations {
 input.field {
     width: 100px;
 }
+
+.search_field {
+    width: 80%;
+}
+
+#slider {
+    border: 1px solid gray;
+    padding: 5px;
+}
+#slider-range {
+    margin: 20px 10px 20px;
+}
+.left-timefield, .right-timefield {
+    border: 1px solid black;
+    width: 50px;
+    text-align: center;
+}
+
+.hide {
+    display: none;
+}
+
+
+#immobiles_container,
+#movables_container {
+    height: 200px;
+    border: 1px solid #DDD;
+    overflow: auto;
+    position: relative;
+}

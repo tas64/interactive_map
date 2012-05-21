@@ -17,6 +17,15 @@ def convert_immobile(object):
 def convert_point(object):
     id, movable_id, time, latitude, longitude = object
     hour = time.hour
+    if hour < 10:
+        hour = "0" + str(hour)
     minute = time.minute
-    second = float("%d.%d" % (time.second, time.microsecond) )
+    if minute < 10:
+        minute = "0" + str(minute)
+    s, ms = time.second, time.microsecond
+    if s < 10 and ms == 0:
+        s = "0" + str(s)
+    second = s
+    if ms > 0:
+        second +=".%s" + str(ms)
     return {'id' : id, 'movable_id' : movable_id, 'hour' : hour, 'minute' : minute, 'second' : second, 'latitude' : latitude, 'longitude' : longitude}

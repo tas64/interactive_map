@@ -23,7 +23,14 @@ function panTo() {
 
 }
 
+function showName() {
+    openBaloon(getCurCoords());
+}
+
 function openBaloon(coords) {
+    if (coords == undefined) {
+        coords = [];
+    }
     var name = $("#id_name").val();
     //alert('change name to ' + name)
     window.myMap.balloon.open(coords, ({contentHeader: name}));
@@ -51,7 +58,7 @@ function init () {
     });
 
     $("#id_latitude").bind('change', panTo);
-    $("#id_name").bind('keyup', openBaloon);
+    $("#id_name").bind('keyup', showName);
     $("#id_longitude").bind('change', panTo);
 
     panTo();
