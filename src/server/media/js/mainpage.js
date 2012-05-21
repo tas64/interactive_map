@@ -235,3 +235,16 @@ function show_only_points(time_left, time_right) {
     paintBaloons(filtered);
 
 }
+
+function enterHandling(who, func) {
+    $(who).keydown(function(e) {
+        if (e.keyCode == 13) {
+            func();
+        }
+    });
+}
+
+window.onload = function() {
+    enterHandling('#movables_search', search_movables);
+    enterHandling('#immobiles_search', search_immobile);
+}

@@ -4,15 +4,21 @@ import converters
 class Q:
     SELECT_ALL_IMMOBILES = "SELECT * FROM imap_immobileobject ORDER BY id;"
     SELECT_ALL_MOVABLES  = "SELECT * FROM imap_movableobject ORDER BY id;"
-    SELECT_ALL_MOVABLES_WITH_TYPES  = "SELECT imap_movableobject.id, imap_movableobject.name, movable_type_id, imap_movabletype.name AS type_name FROM imap_movableobject INNER JOIN imap_movabletype ON movable_type_id = imap_movabletype.id ORDER BY imap_movableobject.id;"
+    SELECT_ALL_MOVABLES_WITH_TYPES  = "SELECT imap_movableobject.id, imap_movableobject.name, movable_type_id, \
+                                       imap_movabletype.name AS type_name \
+                                       FROM imap_movableobject INNER JOIN imap_movabletype ON \
+                                       movable_type_id = imap_movabletype.id ORDER BY imap_movableobject.id;"
     SELECT_ALL_MOVABLE_TYPES  = "SELECT * FROM imap_movabletype ORDER BY id;"
     LOCATION_POINTS_FOR  = "SELECT * FROM imap_locationpoint WHERE movable_object_id = %s ORDER BY time;"
 
 
     DELETE_LOCATION_POINTS_FOR  = "DELETE FROM imap_locationpoint WHERE movable_object_id = %s;"
 
-    SEARCH_IMMOBILES = "SELECT * FROM imap_immobileobject WHERE name LIKE '%PATTERN%' ORDER BY id;"
-    SEARCH_MOVABLES =  "SELECT * FROM imap_movableobject WHERE name LIKE '%PATTERN%' ORDER BY id;"
+    SEARCH_IMMOBILES = "SELECT * FROM imap_immobileobject WHERE LOWER(name) LIKE '%PATTERN%' ORDER BY id;"
+    SEARCH_MOVABLES =  "SELECT imap_movableobject.id, imap_movableobject.name, movable_type_id \
+                        FROM imap_movableobject INNER JOIN imap_movabletype ON movable_type_id = imap_movabletype.id \
+                        WHERE LOWER(imap_movableobject.name) LIKE '%PATTERN%' OR \
+                        LOWER(imap_movabletype.name) LIKE '%PATTERN%' ORDER BY imap_movableobject.id;"
 
     DELETE_IMMOBILE_OBJECT  = "DELETE FROM imap_immobileobject WHERE id = %s;"
     DELETE_MOVABLE_OBJECT = "DELETE FROM imap_movableobject WHERE id = %s;"
@@ -22,9 +28,11 @@ class Q:
     ADD_MOVABLE_OBJECT = "INSERT INTO imap_movableobject (name, movable_type_id) VALUES ('%s', '%s');"
     ADD_MOVABLE_TYPE = "INSERT INTO imap_movabletype (name) VALUES ('%s');"
 
-    ADD_LOCATION_POINT = "INSERT INTO imap_locationpoint (movable_object_id , time, latitude, longitude) VALUES (%s, '%s:%s:%s','%s','%s');"
+    ADD_LOCATION_POINT = "INSERT INTO imap_locationpoint (movable_object_id , time, latitude, longitude) \
+                          VALUES (%s, '%s:%s:%s','%s','%s');"
 
-    UPDATE_IMMOBILE_OBJECT = "UPDATE imap_immobileobject SET name = '%s', phone = '%s', latitude = '%s', longitude = '%s' WHERE id = %s;"
+    UPDATE_IMMOBILE_OBJECT = "UPDATE imap_immobileobject SET name = '%s', phone = '%s', latitude = '%s', \
+                              longitude = '%s' WHERE id = %s;"
     UPDATE_MOVABLE_OBJECT = "UPDATE imap_movableobject SET name = '%s', movable_type_id = '%s' WHERE id = %s;"
     UPDATE_MOVABLE_TYPE = "UPDATE imap_movabletype SET name = '%s' WHERE id = %s;"
 
@@ -59,13 +67,13 @@ def get_all_immobiles_objects():
 
 def search_immobiles_objects(pattern):
     db_wrapper = DBWrapper()
-    objects = db_wrapper.fetch_all(Q.SEARCH_IMMOBILES.replace('PATTERN', pattern))
+    objects = db_wrapper.fetch_all(Q.SEARCH_IMMOBILES.replace('PATTERN', pattern.strip().lower()))
     db_wrapper.dispose()
     return map(converters.convert_immobile, objects)
 
 def search_movables_objects(pattern):
     db_wrapper = DBWrapper()
-    objects = db_wrapper.fetch_all(Q.SEARCH_MOVABLES.replace('PATTERN', pattern))
+    objects = db_wrapper.fetch_all(Q.SEARCH_MOVABLES.replace('PATTERN', pattern.strip().lower()))
     db_wrapper.dispose()
     return map(converters.convert_movable, objects)
 
