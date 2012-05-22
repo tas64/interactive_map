@@ -1,6 +1,6 @@
 def convert_movable(object):
-    id, name, movable_type_id = object
-    return {'id' : id, 'name' : name, 'movable_type_id' : movable_type_id}
+    id, name, movable_type_id, points_counter = object
+    return {'id' : id, 'name' : name, 'movable_type_id' : movable_type_id, 'points_counter' : points_counter}
 
 def convert_movable_with_type(object):
     id, name, movable_type_id, type_name = object

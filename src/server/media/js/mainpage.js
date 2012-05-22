@@ -45,7 +45,7 @@ function clear_movable_path() {
     $("#slider").addClass('hide');
 }
 
-function movables_click(id) {
+function movables_click(id, points_counter) {
 
     if (window.movable_showed_id == id) {
         return;
@@ -63,6 +63,8 @@ function movables_click(id) {
 
         window.myMap.setBounds(window.movable_polyline.geometry.getBounds(), { checkZoomRange: true });
         $("#slider").removeClass("hide");
+        $("#points_counter").html(points_counter);
+
 
         var first = data[0].hour*60 + data[0].minute;
         var second = data[data.length-1].hour * 60 + data[data.length-1].minute;
@@ -165,7 +167,7 @@ function search_movables() {
         $.each(data, function(key,value) {
             var items = [];
             $.each(data, function(key,value) {
-                items.push("<input type='radio' name='movables_radio' onclick='movables_click(" + value.id +")'/>" + value.name);
+                items.push("<input type='radio' name='movables_radio' onclick='movables_click(" + value.id +", " + value.points_counter + ")'/>" + value.name);
             });
             $('#movables_container').html(items.join('<br/>'));
         });

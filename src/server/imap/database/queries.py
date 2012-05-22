@@ -4,7 +4,7 @@ import converters
 
 class Q:
     SELECT_ALL_IMMOBILES = "SELECT * FROM imap_immobileobject ORDER BY id;"
-    SELECT_ALL_MOVABLES  = "SELECT id, name, movable_type_id FROM imap_movableobject ORDER BY id;"
+    SELECT_ALL_MOVABLES  = "SELECT id, name, movable_type_id, points_counter FROM imap_movableobject ORDER BY id;"
     SELECT_ALL_MOVABLES_WITH_TYPES  = "SELECT imap_movableobject.id, imap_movableobject.name, movable_type_id, \
                                        imap_movabletype.name AS type_name \
                                        FROM imap_movableobject INNER JOIN imap_movabletype ON \
@@ -18,7 +18,8 @@ class Q:
     DELETE_LOCATION_POINTS_FOR  = "DELETE FROM imap_locationpoint WHERE movable_object_id = %s;"
 
     SEARCH_IMMOBILES = "SELECT * FROM imap_immobileobject WHERE LOWER(name) LIKE '%PATTERN%' ORDER BY id;"
-    SEARCH_MOVABLES =  "SELECT imap_movableobject.id, imap_movableobject.name, imap_movableobject.movable_type_id \
+    SEARCH_MOVABLES =  "SELECT imap_movableobject.id, imap_movableobject.name, imap_movableobject.movable_type_id, \
+                        imap_movableobject.points_counter \
                         FROM imap_movableobject INNER JOIN imap_movabletype ON movable_type_id = imap_movabletype.id \
                         WHERE LOWER(imap_movableobject.name) LIKE '%PATTERN%' OR \
                         LOWER(imap_movabletype.name) LIKE '%PATTERN%' ORDER BY imap_movableobject.id;"
@@ -40,7 +41,7 @@ class Q:
     UPDATE_MOVABLE_TYPE = "UPDATE imap_movabletype SET name = '%s' WHERE id = %s;"
 
     GET_IMMOBILE_OBJECT = "SELECT * from imap_immobileobject WHERE id = %s LIMIT 1;"
-    GET_MOVABLE_OBJECT =  "SELECT id,name, movable_type_id from imap_movableobject WHERE id = %s LIMIT 1;"
+    GET_MOVABLE_OBJECT =  "SELECT id,name, movable_type_id, points_counter from imap_movableobject WHERE id = %s LIMIT 1;"
     GET_MOVABLE_TYPE =  "SELECT * from imap_movabletype WHERE id = %s LIMIT 1;"
 
 
