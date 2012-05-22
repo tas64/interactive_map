@@ -1,3 +1,4 @@
+from psycopg2._psycopg import IntegrityError
 from imap.database.DBWrapper import DBWrapper
 import converters
 
@@ -88,12 +89,9 @@ def search_movables_objects(pattern):
 
 def get_all_location_points_for(id):
     points = ()
-    try:
-        db_wrapper = DBWrapper()
-        points = db_wrapper.fetch_all(Q.LOCATION_POINTS_FOR % id)
-        db_wrapper.dispose()
-    except:
-        pass
+    db_wrapper = DBWrapper()
+    points = db_wrapper.fetch_all(Q.LOCATION_POINTS_FOR % id)
+    db_wrapper.dispose()
     return map(converters.convert_point, points)
 
 def delete_all_location_points_for(id):
@@ -109,15 +107,15 @@ def delete_immobile_object(id):
 
 def add_immobile_object(data):
     db_wrapper = DBWrapper()
-    db_wrapper.execute(Q.ADD_IMMOBILE_OBJECT % (data['name'], data.get('phone', ''), data['latitude'], data['longitude']))
+    result = db_wrapper.execute(Q.ADD_IMMOBILE_OBJECT % (data['name'], data.get('phone', ''), data['latitude'], data['longitude']))
     db_wrapper.dispose()
-    return True
+    return result
 
 def update_immobile_object(id, data):
     db_wrapper = DBWrapper()
-    db_wrapper.execute(Q.UPDATE_IMMOBILE_OBJECT % (data['name'], data.get('phone', ''), data['latitude'], data['longitude'], id))
+    result = db_wrapper.execute(Q.UPDATE_IMMOBILE_OBJECT % (data['name'], data.get('phone', ''), data['latitude'], data['longitude'], id))
     db_wrapper.dispose()
-    return True
+    return result
 
 def get_immobile_object(id):
     db_wrapper = DBWrapper()
@@ -133,9 +131,9 @@ def delete_movable_object(id):
 
 def add_movable_object(movable_type_id, data):
     db_wrapper = DBWrapper()
-    db_wrapper.execute(Q.ADD_MOVABLE_OBJECT % (data['name'], movable_type_id))
+    result = db_wrapper.execute(Q.ADD_MOVABLE_OBJECT % (data['name'], movable_type_id))
     db_wrapper.dispose()
-    return True
+    return result
 
 def get_movable_object(id):
     db_wrapper = DBWrapper()
@@ -145,9 +143,9 @@ def get_movable_object(id):
 
 def update_movable_object(id, movable_type_id, data):
     db_wrapper = DBWrapper()
-    db_wrapper.execute(Q.UPDATE_MOVABLE_OBJECT % (data['name'],movable_type_id, id))
+    result = db_wrapper.execute(Q.UPDATE_MOVABLE_OBJECT % (data['name'],movable_type_id, id))
     db_wrapper.dispose()
-    return True
+    return result
 
 def delete_movable_type(id):
     db_wrapper = DBWrapper()
@@ -157,9 +155,9 @@ def delete_movable_type(id):
 
 def add_movable_type(data):
     db_wrapper = DBWrapper()
-    db_wrapper.execute(Q.ADD_MOVABLE_TYPE % (data['name']))
+    result = db_wrapper.execute(Q.ADD_MOVABLE_TYPE % (data['name']))
     db_wrapper.dispose()
-    return True
+    return result
 
 def get_movable_type(id):
     db_wrapper = DBWrapper()
@@ -169,11 +167,12 @@ def get_movable_type(id):
 
 def update_movable_type(id, data):
     db_wrapper = DBWrapper()
-    db_wrapper.execute(Q.UPDATE_MOVABLE_TYPE % (data['name'], id))
+    result = db_wrapper.execute(Q.UPDATE_MOVABLE_TYPE % (data['name'], id))
     db_wrapper.dispose()
-    return True
+    return result
 
 def add_location_point(movable_object_id , hour, minute, second, latitude, longitude):
     db_wrapper = DBWrapper()
-    db_wrapper.execute(Q.ADD_LOCATION_POINT % (movable_object_id , hour, minute, second, latitude, longitude))
+    result = db_wrapper.execute(Q.ADD_LOCATION_POINT % (movable_object_id , hour, minute, second, latitude, longitude))
     db_wrapper.dispose()
+    return result

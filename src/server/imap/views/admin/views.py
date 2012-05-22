@@ -8,6 +8,8 @@ import forms
 
 import re
 
+MESSAGE_ERROR = "Ошибка при сохранении. Такой объект уже существует в базе данных"
+
 def main_page(request):
     return render_to_response("admin/main.html")
 
@@ -22,27 +24,35 @@ def del_immobile(request, id):
     #return redirect("/admin/immobiles/", {'message' : 'Успешно удалено'})
 
 def add_immobile(request):
+    message = ""
     if request.method == 'POST':
         form = forms.ImmobileForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            queries.add_immobile_object(data)
-            return HttpResponseRedirect('/admin/immobiles/')
+            result = queries.add_immobile_object(data)
+            if result:
+                return HttpResponseRedirect('/admin/immobiles/')
+            else:
+                message = MESSAGE_ERROR
     else:
         form = forms.ImmobileForm()
-    return render_to_response("admin/edit_immobile.html", {'form' : form, 'creating' : True})
+    return render_to_response("admin/edit_immobile.html", {'form' : form, 'creating' : True,'message' : message})
 
 def edit_immobile(request, id):
+    message = ""
     if request.method == 'POST':
         form = forms.ImmobileForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            queries.update_immobile_object(id, data)
-            return HttpResponseRedirect('/admin/immobiles/')
+            result = queries.update_immobile_object(id, data)
+            if result:
+                return HttpResponseRedirect('/admin/immobiles/')
+            else:
+                message = MESSAGE_ERROR
     else:
         object = queries.get_immobile_object(id)
         form = forms.ImmobileForm(initial = object)
-    return render_to_response("admin/edit_immobile.html", {'form' : form, 'creating' : False})
+    return render_to_response("admin/edit_immobile.html", {'form' : form, 'creating' : False, 'message' : message})
 
 
 def show_movables(request):
@@ -54,31 +64,41 @@ def del_movable(request,id):
     return HttpResponseRedirect('/admin/movables/')
 
 def add_movable(request):
+    message = ""
     if request.method == 'POST':
         form = forms.MovableForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            queries.add_movable_object(request.POST['movable_type'], data)
-            return HttpResponseRedirect('/admin/movables/')
+            result = queries.add_movable_object(request.POST['movable_type'], data)
+            if result:
+                return HttpResponseRedirect('/admin/movables/')
+            else:
+                message = MESSAGE_ERROR
     else:
         form = forms.MovableForm()
     types = queries.get_all_movable_types()
-    return render_to_response("admin/edit_movable.html", {'form' : form,  'types' : types, 'movable_type_id' : 0, 'creating' : True})
+    return render_to_response("admin/edit_movable.html", {'form' : form,  'types' : types, 'movable_type_id' : 0, 'creating' : True,'message' : message})
 
 def edit_movable(request, id):
     movable_type_id = 0
+    message = ""
     if request.method == 'POST':
         form = forms.MovableForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            queries.update_movable_object(id, request.POST['movable_type'], data)
-            return HttpResponseRedirect('/admin/movables/')
+            result = queries.update_movable_object(id, request.POST['movable_type'], data)
+            if result:
+                return HttpResponseRedirect('/admin/movables/')
+            else:
+                message = MESSAGE_ERROR
     else:
         object = queries.get_movable_object(id)
         movable_type_id = object['movable_type_id']
         form = forms.MovableForm(initial = object)
     types = queries.get_all_movable_types()
-    return render_to_response("admin/edit_movable.html", {'id': id, 'form' : form,  'types' : types, 'movable_type_id' : movable_type_id,  'creating' : False})
+    return render_to_response("admin/edit_movable.html", {'id': id, 'form' : form,  'types' : types,
+                                                          'movable_type_id' : movable_type_id,  'creating' : False,
+                                                           'message' : message})
 
 
 def show_movable_types(request):
@@ -90,27 +110,35 @@ def del_movable_type(request,id):
     return HttpResponseRedirect('/admin/movable_types/')
 
 def add_movable_type(request):
+    message = ""
     if request.method == 'POST':
         form = forms.MovableTypeForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            queries.add_movable_type(data)
-            return HttpResponseRedirect('/admin/movable_types/')
+            result = queries.add_movable_type(data)
+            if result:
+                return HttpResponseRedirect('/admin/movable_types/')
+            else:
+                message = MESSAGE_ERROR
     else:
         form = forms.MovableTypeForm()
-    return render_to_response("admin/edit_movable_type.html", {'form' : form, 'creating' : True})
+    return render_to_response("admin/edit_movable_type.html", {'form' : form, 'creating' : True, 'message' : message})
 
 def edit_movable_type(request, id):
+    message = ""
     if request.method == 'POST':
         form = forms.MovableTypeForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            queries.update_movable_type(id, data)
-            return HttpResponseRedirect('/admin/movable_types')
+            result = queries.update_movable_type(id, data)
+            if result:
+                return HttpResponseRedirect('/admin/movable_types')
+            else:
+                message = MESSAGE_ERROR
     else:
         object = queries.get_movable_type(id)
         form = forms.MovableTypeForm(initial = object)
-    return render_to_response("admin/edit_movable_type.html", {'form' : form, 'creating' : False})
+    return render_to_response("admin/edit_movable_type.html", {'form' : form, 'creating' : False, 'message' : message})
 
 
 def handle_file(content):
@@ -138,9 +166,8 @@ def handle_file(content):
             real_longitude *= -1
 
         #TODO add duplicates rules
-        try:
-            queries.add_location_point(id, h, m, s, real_latitude, real_longitude)
-        except IntegrityError: #if no id of movable object here
+        result = queries.add_location_point(id, h, m, s, real_latitude, real_longitude)
+        if not result:
             continue
         counter += 1
     return counter
@@ -152,7 +179,8 @@ def upload_points(request):
         if form.is_valid():
             file_content = request.FILES['file'].read()
             counter = handle_file(file_content)
-            return render_to_response("admin/upload_points.html", {'message': u'Из файла успешно добавлено строчек: %d' % counter})
+            message = u'Из файла успешно добавлено строчек: %d' % counter
+            return render_to_response("admin/upload_points.html", {'message': message})
     else:
         form = forms.UploadFileForm()
     return render_to_response("admin/upload_points.html", {'form': form})

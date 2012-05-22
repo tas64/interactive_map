@@ -1,3 +1,4 @@
+from psycopg2._psycopg import IntegrityError
 from server import settings
 import psycopg2
 
@@ -31,9 +32,15 @@ class DBWrapper:
         return result
 
     def execute(self, query):
-        cursor = self._query(query)
-        self._connection.commit()
-        cursor.close()
+        try:
+            cursor = self._query(query)
+            self._connection.commit()
+            cursor.close()
+        except IntegrityError:
+            return False
+        return True
+
+
 
     def dispose(self):
         if self._connection:
