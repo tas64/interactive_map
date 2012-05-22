@@ -53,7 +53,7 @@ def locationpoints_file(request):
         latitude_minute = format_point(latitude_minute, 2,2)
         longitude_minute = format_point(longitude_minute, 2,2)
 
-        result = "$%d, %d%d%s, %d%s%s, %d%s%s" % (id, h,m,s, latitude_degree, latitude_minute, p, longitude_degree, longitude_minute, j)
+        result = "$%d, %s%s%s, %s%s, %s, %s%s, %s" % (id, h,m,s, latitude_degree, latitude_minute, p, longitude_degree, longitude_minute, j)
         results.append(result)
     return render_to_response("test/locationpoints_file.html", {'results' : results})
 

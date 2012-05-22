@@ -22,7 +22,7 @@ CREATE TABLE "imap_movableobject" (
     "id" serial NOT NULL PRIMARY KEY,
     "name" text NOT NULL,
     "movable_type_id" integer NOT NULL REFERENCES "imap_movabletype" ("id") DEFERRABLE INITIALLY DEFERRED,
-    "points_counter" int DEFAULT 0,
+    "points_counter" integer DEFAULT 0,
     UNIQUE (name, movable_type_id)
 )
 ;
