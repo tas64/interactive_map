@@ -25,7 +25,7 @@ def convert_point(object):
     s, ms = time.second, time.microsecond
     if s < 10 and ms == 0:
         s = "0" + str(s)
-    second = s
+    second = str(s)
     if ms > 0:
-        second +=".%s" + str(ms)
+        second +=".%s" % str(ms)[:2]
     return {'id' : id, 'movable_id' : movable_id, 'hour' : hour, 'minute' : minute, 'second' : second, 'latitude' : latitude, 'longitude' : longitude}

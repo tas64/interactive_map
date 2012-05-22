@@ -9,6 +9,8 @@ class Q:
                                        FROM imap_movableobject INNER JOIN imap_movabletype ON \
                                        movable_type_id = imap_movabletype.id ORDER BY imap_movableobject.id;"
     SELECT_ALL_MOVABLE_TYPES  = "SELECT * FROM imap_movabletype ORDER BY id;"
+    SELECT_ALL_LOCATION_POINTS  = "SELECT * FROM imap_locationpoint ORDER BY id;"
+
     LOCATION_POINTS_FOR  = "SELECT * FROM imap_locationpoint WHERE movable_object_id = %s ORDER BY time;"
 
 
@@ -64,6 +66,13 @@ def get_all_immobiles_objects():
     immobiles = db_wrapper.fetch_all(Q.SELECT_ALL_IMMOBILES)
     db_wrapper.dispose()
     return map(converters.convert_immobile, immobiles)
+
+def get_all_location_points():
+    db_wrapper = DBWrapper()
+    lps = db_wrapper.fetch_all(Q.SELECT_ALL_LOCATION_POINTS)
+    db_wrapper.dispose()
+    return map(converters.convert_point, lps)
+
 
 def search_immobiles_objects(pattern):
     db_wrapper = DBWrapper()
