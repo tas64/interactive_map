@@ -85,7 +85,7 @@ $$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER coords_validator1
-    AFTER INSERT
+    AFTER INSERT OR UPDATE
     ON imap_immobileobject
     FOR EACH ROW
     EXECUTE PROCEDURE func_validator1();
@@ -137,7 +137,7 @@ $$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER coords_validator2
-    AFTER INSERT
+    AFTER INSERT OR UPDATE
     ON imap_locationpoint
     FOR EACH ROW
     EXECUTE PROCEDURE func_validator2();

@@ -172,8 +172,10 @@ function set_time(){
 
 function delete_way() {
     $.getJSON('/ajax/del_location_points/' + window.globalId + '/', function(data) {
+        window.myMap.geoObjects.remove(window.geoobject);
         set_status(STATUS.NO_WAY);
         clear_table();
+
     });
 }
 
