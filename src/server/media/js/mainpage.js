@@ -66,9 +66,9 @@ function movables_click(id, points_counter) {
         $("#points_counter").html(points_counter);
 
 
-        var first = data[0].hour*60 + data[0].minute;
-        var second = data[data.length-1].hour * 60 + data[data.length-1].minute;
-        set_fields(first, second)
+        var first = Number(data[0].hour)*60 + Number(data[0].minute);
+        var second = Number(data[data.length-1].hour) * 60 + Number(data[data.length-1].minute);
+        set_fields(first, second);
 
         $( "#slider-range" ).slider( "option", "values", [first,second] );
 
