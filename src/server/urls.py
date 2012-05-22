@@ -6,8 +6,6 @@ import settings
 
 from imap.views import main_view, ajax_views, test_views
 
-admin.autodiscover()
-
 urlpatterns = patterns('',
     #pages of site
     (r'^$', main_view.main),
@@ -32,7 +30,6 @@ urlpatterns = patterns('',
     (r'^test/locationpoints-file/$', test_views.locationpoints_file),
 
     #service queries
-    (r'^django/', include(admin.site.urls)),
     (r'^site-media/(?P<path>.*)$', 'django.views.static.serve',
          {'document_root': settings.MEDIA_ROOT}),
 
