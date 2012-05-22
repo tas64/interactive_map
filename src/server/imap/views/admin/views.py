@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, redirect
+from psycopg2._psycopg import IntegrityError
 
 from imap.database import queries
 import forms
@@ -113,11 +114,17 @@ def edit_movable_type(request, id):
 
 
 def handle_file(content):
+    content.replace('\r','') #will handle both: windows and linux-formatted files
+    counter = 0
     for line in content.split('\n'):
         if not line.startswith('$'):
             continue
         line = re.sub(r"\s", "", line)
         id, time, latitude, p, longitude, j = line[1:].split(',')
+
+        if (p != 'S' and p != 'N') or (j != 'E' and j != 'W'):
+            continue
+
         h,m,s = time[0:2], time[2:4], time[4:]
         latitude_degree, latitude_minute = int(latitude[0:2]), float(latitude[2:])
         longitude_degree, longitude_minute = int(longitude[0:2]), float(longitude[2:])
@@ -125,15 +132,18 @@ def handle_file(content):
         real_latitude = float(latitude_degree) + float(latitude_minute/60)
         real_longitude = float(longitude_degree) + float(longitude_minute/60)
 
-        #TODO add range check and correcting
-
         if p == 'S':
             real_latitude *= -1
         if j == 'E':
             real_longitude *= -1
 
         #TODO add duplicates rules
-        queries.add_location_point(id, h, m, s, real_latitude, real_longitude)
+        try:
+            queries.add_location_point(id, h, m, s, real_latitude, real_longitude)
+        except IntegrityError: #if no id of movable object here
+            continue
+        counter += 1
+    return counter
 
 
 def upload_points(request):
@@ -141,8 +151,8 @@ def upload_points(request):
         form = forms.UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             file_content = request.FILES['file'].read()
-            handle_file(file_content)
-            return render_to_response("admin/upload_points.html", {'message': u'Файл успешно залит'})
+            counter = handle_file(file_content)
+            return render_to_response("admin/upload_points.html", {'message': u'Из файла успешно добавлено строчек: %d' % counter})
     else:
         form = forms.UploadFileForm()
     return render_to_response("admin/upload_points.html", {'form': form})

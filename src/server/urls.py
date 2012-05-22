@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     (r'^test/mapsapi/$', test_views.mapsapi),
     (r'^test/immobiles/$', test_views.all_immobiles_on_map),
     (r'^test/db/$', test_views.db_connection_test),
+    (r'^test/locationpoints-file/$', test_views.locationpoints_file),
 
     #service queries
     (r'^django/', include(admin.site.urls)),

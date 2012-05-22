@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Интерактивная карта</title>
+{% endblock%}
+
+{% block body %}
+
+<pre>
+{% for result in results %}{{ result }}
+{% endfor %}
+</pre>
+
+{% endblock %}
+
