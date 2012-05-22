@@ -192,3 +192,9 @@ CREATE TRIGGER movableobject_deleter
     FOR EACH ROW
     EXECUTE PROCEDURE func_deleter();
 
+
+
+CREATE USER test_user WITH password 'test_pass';
+GRANT SELECT, INSERT, UPDATE, DELETE 
+    ON imap_immobileobject, imap_movabletype, imap_movableobject, imap_locationpoint
+    TO test_user;
