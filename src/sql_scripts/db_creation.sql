@@ -37,6 +37,8 @@ CREATE TABLE "imap_locationpoint" (
 ;
 
 
+CREATE LANGUAGE plpgsql;
+
 --coords validator1
 DROP TRIGGER IF EXISTS coords_validator1 ON imap_immobileobject;
 DROP FUNCTION IF EXISTS func_validator1() CASCADE;
