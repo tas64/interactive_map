@@ -23,7 +23,7 @@ def format_point(s, before, after):
     if len(b) < before:
         b = '0'*(before - len(b)) + b
     if len(a) < after:
-        a = '0'*(after - len(a)) + a
+        a += '0'*(after - len(a))
     a = a[:after]
     return "%s.%s" % (b, a)
 
@@ -37,9 +37,9 @@ def locationpoints_file(request):
         real_latitude = point['latitude']
         real_longitude = point['longitude']
 
-        p = 'S'
+        p = 'N'
         if real_latitude < 0:
-            p = 'N'
+            p = 'S'
             real_latitude *= -1
         j = 'E'
         if real_longitude < 0:

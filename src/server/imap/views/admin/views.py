@@ -134,7 +134,7 @@ def handle_file(content):
 
         if p == 'S':
             real_latitude *= -1
-        if j == 'E':
+        if j == 'W':
             real_longitude *= -1
 
         #TODO add duplicates rules

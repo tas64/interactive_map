@@ -39,7 +39,7 @@ class Q:
     UPDATE_MOVABLE_TYPE = "UPDATE imap_movabletype SET name = '%s' WHERE id = %s;"
 
     GET_IMMOBILE_OBJECT = "SELECT * from imap_immobileobject WHERE id = %s LIMIT 1;"
-    GET_MOVABLE_OBJECT =  "SELECT * from imap_movableobject WHERE id = %s LIMIT 1;"
+    GET_MOVABLE_OBJECT =  "SELECT id,name, movable_type_id from imap_movableobject WHERE id = %s LIMIT 1;"
     GET_MOVABLE_TYPE =  "SELECT * from imap_movabletype WHERE id = %s LIMIT 1;"
 
 
